@@ -10,8 +10,11 @@ CELL_SIZE = 20
 GRID = [[0 for _ in range(GRID_SIZE_Y)] for _ in range(GRID_SIZE_X)]    # multidimensional array full of zeros
                                                                         # underscores instead of i, j because we're not using them here anyway
 
+main_title = "Conway's Game of Life | Generations: "
+generations = 0
+paused_text = " | Game paused"
 board = pygame.display.set_mode([GRID_SIZE_X * CELL_SIZE, GRID_SIZE_Y * CELL_SIZE])
-pygame.display.set_caption("Conway's Game of Life")
+pygame.display.set_caption(main_title + str(generations) + paused_text)
 timer = pygame.time.Clock()
 fps = 30
 game_running = True
@@ -93,8 +96,10 @@ try:
                 if event.key == pygame.K_RETURN:
                     if game_paused:
                         game_paused = False
+                        pygame.display.set_caption(main_title + str(generations))
                     else:
                         game_paused = True
+                        pygame.display.set_caption(main_title + str(generations) + paused_text)
             elif event.type == pygame.MOUSEBUTTONDOWN:
                 mouse_x, mouse_y = pygame.mouse.get_pos()
                 row = mouse_y // CELL_SIZE
@@ -103,6 +108,8 @@ try:
             elif event.type == pygame.USEREVENT:
                 if not game_paused:
                     live_or_die()
+                    generations += 1
+                    pygame.display.set_caption(main_title + str(generations))
 
         draw()
         pygame.display.flip()
