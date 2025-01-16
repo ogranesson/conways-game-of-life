@@ -47,8 +47,19 @@ def count_neighbors(row, col):
     for direction_r, direction_c in directions:
         r = row + direction_r
         c = col + direction_c
-        if 0 <= r < GRID_SIZE_Y and 0 <= c < GRID_SIZE_X:   # keep in bounds
-            count += GRID[r][c]
+
+        # wraps around if out of bounds
+        if r < 0:
+            r = GRID_SIZE_Y - 1
+        if r == GRID_SIZE_Y:
+            r = 0
+        if c < 0:
+            c = GRID_SIZE_X - 1
+        if c == GRID_SIZE_X:
+            c = 0
+
+        if 0 <= r < GRID_SIZE_Y and 0 <= c < GRID_SIZE_X:
+            count += GRID[r][c]     # since boolean, adding value of cell also equals to no. of living neighbors
 
     return count
 
