@@ -15,6 +15,11 @@ pygame.display.set_caption("Conway's Game of Life")
 timer = pygame.time.Clock()
 fps = 30
 game_running = True
+game_paused = True
+
+# setting the event and interval
+STEP_EVENT = pygame.USEREVENT
+pygame.time.set_timer(STEP_EVENT, 400)
 
 def draw():
     board.fill((0, 0, 0))
@@ -75,12 +80,18 @@ try:
                 game_running = False
             elif event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_RETURN:
-                    live_or_die()
+                    if game_paused:
+                        game_paused = False
+                    else:
+                        game_paused = True
             elif event.type == pygame.MOUSEBUTTONDOWN:
                 mouse_x, mouse_y = pygame.mouse.get_pos()
                 row = mouse_y // CELL_SIZE
                 col = mouse_x // CELL_SIZE
                 update_cell(row, col)
+            elif event.type == pygame.USEREVENT:
+                if not game_paused:
+                    live_or_die()
 
         draw()
         pygame.display.flip()
