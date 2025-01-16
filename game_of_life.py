@@ -3,14 +3,11 @@ import sys
 
 pygame.init()
 
-WIDTH = 800
-HEIGHT = 800
-SQUARE = 15
+GRID_SIZE_X = 50
+GRID_SIZE_Y = 50
+CELL_SIZE = 20
 
-X = 400
-Y = 400
-
-board = pygame.display.set_mode([WIDTH, HEIGHT])
+board = pygame.display.set_mode([GRID_SIZE_X * CELL_SIZE, GRID_SIZE_Y * CELL_SIZE])
 pygame.display.set_caption("Conway's game of life")
 timer = pygame.time.Clock()
 fps = 30
@@ -18,7 +15,9 @@ game_running = True
 
 def draw():
     board.fill((0, 0, 0))
-    pygame.draw.rect(board, (255, 0, 0), (X, Y, SQUARE, SQUARE))
+    for i in range(0, GRID_SIZE_Y * CELL_SIZE, CELL_SIZE):
+        for j in range(0, GRID_SIZE_X * CELL_SIZE, CELL_SIZE):
+            pygame.draw.rect(board, (255, 255, 255), (i + 1, j + 1, CELL_SIZE - 1, CELL_SIZE - 1))
 
 def move():
     global X
