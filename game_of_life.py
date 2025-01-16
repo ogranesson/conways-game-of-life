@@ -74,7 +74,7 @@ try:
             if event.type == pygame.QUIT:
                 game_running = False
             elif event.type == pygame.KEYDOWN:
-                if event.key == pygame.K_e:
+                if event.key == pygame.K_RETURN:
                     live_or_die()
             elif event.type == pygame.MOUSEBUTTONDOWN:
                 mouse_x, mouse_y = pygame.mouse.get_pos()
