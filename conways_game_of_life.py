@@ -24,6 +24,15 @@ game_paused = True
 STEP_EVENT = pygame.USEREVENT
 pygame.time.set_timer(STEP_EVENT, 400)
 
+def restart():
+    global generations
+    global GRID
+    global game_paused
+
+    generations = 0
+    GRID = [[0 for _ in range(GRID_SIZE_Y)] for _ in range(GRID_SIZE_X)]
+    game_paused = True
+
 def draw():
     board.fill((0, 0, 0))
     for row in range(GRID_SIZE_Y):
@@ -100,6 +109,9 @@ try:
                     else:
                         game_paused = True
                         pygame.display.set_caption(main_title + str(generations) + paused_text)
+                elif event.key == pygame.K_r:
+                    restart()
+                    pygame.display.set_caption(main_title + str(generations) + paused_text)
             elif event.type == pygame.MOUSEBUTTONDOWN:
                 mouse_x, mouse_y = pygame.mouse.get_pos()
                 row = mouse_y // CELL_SIZE
