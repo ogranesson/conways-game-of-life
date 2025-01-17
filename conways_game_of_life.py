@@ -22,6 +22,7 @@ game_paused = True
 
 # setting the event to be used in the interval later
 STEP_EVENT = pygame.USEREVENT
+TIMER_DURATION = 400
 
 def restart():
     global generations
@@ -104,7 +105,7 @@ try:
                 if event.key == pygame.K_RETURN:
                     if game_paused:
                         game_paused = False
-                        pygame.time.set_timer(STEP_EVENT, 400)  # resume timer
+                        pygame.time.set_timer(STEP_EVENT, TIMER_DURATION)  # resume timer
                         pygame.display.set_caption(main_title + str(generations))
                     else:
                         game_paused = True
@@ -113,6 +114,13 @@ try:
                 elif event.key == pygame.K_r:
                     restart()
                     pygame.display.set_caption(main_title + str(generations) + paused_text)
+                elif event.key  == pygame.K_MINUS:
+                    TIMER_DURATION += 50
+                    pygame.time.set_timer(STEP_EVENT, TIMER_DURATION)
+                elif event.key == pygame.K_EQUALS:
+                    TIMER_DURATION -= 50
+                    pygame.time.set_timer(STEP_EVENT, TIMER_DURATION)
+
             elif event.type == pygame.MOUSEBUTTONDOWN:
                 mouse_x, mouse_y = pygame.mouse.get_pos()
                 row = mouse_y // CELL_SIZE
