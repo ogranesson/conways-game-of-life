@@ -32,6 +32,7 @@ def restart():
     generations = 0
     GRID = [[0 for _ in range(GRID_SIZE_Y)] for _ in range(GRID_SIZE_X)]
     game_paused = True
+    pygame.time.set_timer(STEP_EVENT, 0)
 
 def draw():
     board.fill((0, 0, 0))
