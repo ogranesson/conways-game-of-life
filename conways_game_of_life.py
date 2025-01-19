@@ -43,6 +43,13 @@ def draw():
             else:
                 pygame.draw.rect(board, (255, 0, 0), (col * CELL_SIZE + 1, row * CELL_SIZE + 1, CELL_SIZE - 1, CELL_SIZE - 1))
 
+def mouse_grid_pos():
+    mouse_x, mouse_y = pygame.mouse.get_pos()
+    row = mouse_y // CELL_SIZE
+    col = mouse_x // CELL_SIZE
+
+    return row, col
+
 def update_cell(row, col):
     if GRID[row][col] == 0:
         GRID[row][col] = 1
@@ -123,14 +130,22 @@ try:
                     pygame.time.set_timer(STEP_EVENT, TIMER_DURATION)
 
             elif event.type == pygame.MOUSEBUTTONDOWN:
-                mouse_x, mouse_y = pygame.mouse.get_pos()
-                row = mouse_y // CELL_SIZE
-                col = mouse_x // CELL_SIZE
+                row, col = mouse_grid_pos()
                 update_cell(row, col)
+
             elif event.type == pygame.USEREVENT:
                     live_or_die()
                     generations += 1
                     pygame.display.set_caption(main_title + str(generations))
+
+            # hold and drag mouse to draw
+            row, col = mouse_grid_pos()
+            buttons = pygame.mouse.get_pressed()
+
+            # if left mouse button clicked and cell underneath is white, make red
+            # if right mouse button clicked and cell underneath is red, make white
+            if (buttons[0] == True and GRID[row][col] == 0) or (buttons[2] == True and GRID[row][col] == 1):
+                update_cell(row, col)
 
         draw()
         pygame.display.flip()
